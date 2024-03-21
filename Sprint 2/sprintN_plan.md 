@@ -1,0 +1,5 @@
+This week, our Sprint Planning focuses on laying the foundational elements of our project by completing the login and registration interfaces and establishing a user database. The tasks have been meticulously divided as follows:
+Frontend Design: We aim to craft the user interface for essential pages such as login, registration, and the homepage. 
+Backend Development: The focus will be on writing the support code necessary for the functionality of the aforementioned interfaces, ensuring a robust backend system.
+Database Management: Our goal is to organize and categorize data efficiently. This includes creating a structured database for user information and stock data, facilitating easy access and management.
+Integration and Interaction: connect the frontend with the backend, enabling the seamless operation of the interfaces we develop.
