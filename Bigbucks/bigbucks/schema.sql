@@ -7,6 +7,10 @@ CREATE TABLE user (
     UserId INTEGER PRIMARY KEY AUTOINCREMENT,
     UserName TEXT UNIQUE NOT NULL,
     Password TEXT NOT NULL
+    Email TEXT NOT NULL,
+    FirstName TEXT NOT NULL,
+    LastName TEXT NOT NULL,
+    PhoneNumber TEXT NOT NULL,
     AccountBalance DECIMAL NOT NULL
 );
 
