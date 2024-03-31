@@ -32,30 +32,37 @@ def register():
     firstname = request.json.get('first_name', '')
     lastname = request.json.get('last_name', '')
     phonenum = request.json.get('phone_number', '')
+    role = 'user'
 
     try:
-        cur.execute('INSERT INTO user (username, password, first_name, last_name, phone_number, email, account_balance) VALUES (?, ?, ?, ?, ?, ?, ?)',
-                    (username, password, firstname, lastname, phonenum, email, 1000000))
+        cur.execute('INSERT INTO user (username, password, first_name, last_name, phone_number, email, account_balance, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+                    (username, password, firstname, lastname, phonenum, email, 1000000, role))
         db.commit()
     except sqlite3.IntegrityError:
         return jsonify({'error': f'User {username} is already registered.'}), 400
 
     return jsonify({'status': 'Success'}), 201
 
-@bp.route('/login', methods=['POST'])
-def login():
+@bp.route('/login/<user_role>', methods=['POST'])
+def login(user_role):
     db = get_db()
     cur = db.cursor()
     username = request.json['username']
     password = request.json['password']
-    cur.execute('SELECT * FROM user WHERE username = ?', (username,))
+
+    cur.execute('SELECT * FROM user WHERE username = ? AND role = ?', (username, user_role))
     user = cur.fetchone()
 
-    if user is None or not check_password_hash(user['password'], password):
-        return jsonify({'error': 'Incorrect username or password.'}), 400
+    if user is None:
+        return jsonify({'error': 'Incorrect username or role.'}), 400
+
+    if not check_password_hash(user['password'], password):
+        return jsonify({'error': 'Incorrect password.'}), 400
 
     session.clear()
     session['user_id'] = user['id']
+    session['user_role'] = user['role']
+
     return jsonify({'status': 'Success'}), 200
 
 app.register_blueprint(bp)

@@ -1,7 +1,8 @@
-const domain = "the url you deployed your backend to"
+// const domain = "http://127.0.0.1:5000"
 
 export const login = (credential, asHost) => {
-    const loginUrl = '${domain}/authenticate/${asHost? "host" : "guest"}';
+    const loginUrl = '/login/${asHost? "host" : "user"}';
+    // const loginUrl = '/login/${asHost? "host" : "user"}';
     return fetch(loginUrl, {
         method: "POST",
         headers: {
@@ -17,8 +18,9 @@ export const login = (credential, asHost) => {
     });
 };
 
-export const register = (credential, asHost) => {
-    const registerUrl = '${domain}/register/${asHost ? "host" : "guest"}';
+export const register = (credential) => {
+    const registerUrl = '/register/';
+    // const registerUrl = '/register/';
     return fetch(registerUrl, {
         method: "POST",
         headers: {

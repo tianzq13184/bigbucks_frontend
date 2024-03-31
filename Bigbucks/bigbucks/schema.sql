@@ -6,12 +6,13 @@ DROP TABLE IF EXISTS HistoricalStockData;
 CREATE TABLE user (
     UserId INTEGER PRIMARY KEY AUTOINCREMENT,
     UserName TEXT UNIQUE NOT NULL,
-    Password TEXT NOT NULL
+    Password TEXT NOT NULL,
     Email TEXT NOT NULL,
     FirstName TEXT NOT NULL,
     LastName TEXT NOT NULL,
     PhoneNumber TEXT NOT NULL,
-    AccountBalance DECIMAL NOT NULL
+    AccountBalance DECIMAL NOT NULL,
+    ROLE TEXT NOT NULL,
 );
 
 CREATE TABLE stocks (
