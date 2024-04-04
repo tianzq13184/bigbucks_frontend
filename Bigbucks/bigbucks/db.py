@@ -29,8 +29,8 @@ def init_db_command():
     """Clear the existing data and create new tables."""
     init_db()
     click.echo('Initialized the database.')
-    fetch_and_store_data('SPY')
-    click.echo('Get the info and data of S&P 500.')
+    # fetch_and_store_data('SPY')
+    # click.echo('Get the info and data of S&P 500.')
 
 def init_app(app):
     app.teardown_appcontext(close_db)

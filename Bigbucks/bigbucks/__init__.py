@@ -39,8 +39,8 @@ def create_app(test_config=None):
     # from . import transactions
     # app.register_blueprint(transactions.bp)
 
-    @app.route('/')
-    def serve():
-        return send_from_directory(app.static_folder, 'index.html')
+    # @app.route('/')
+    # def serve():
+    #     return send_from_directory(app.static_folder, 'index.html')
 
     return app

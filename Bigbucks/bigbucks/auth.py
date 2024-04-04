@@ -1,19 +1,20 @@
 import sqlite3
 from flask import Flask, g, jsonify, request, session, flash, redirect, url_for, Blueprint
 from werkzeug.security import generate_password_hash, check_password_hash
+from .db import get_db
 
 app = Flask(__name__)
 app.secret_key = 'our_secret_key'  
 
-DATABASE = '/path/to/your/database.db'
+# DATABASE = '/path/to/your/database.db'
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
-def get_db():
-    if 'db' not in g:
-        g.db = sqlite3.connect(DATABASE)
-        g.db.row_factory = sqlite3.Row
-    return g.db
+# def get_db():
+#     if 'db' not in g:
+#         g.db = sqlite3.connect(DATABASE)
+#         g.db.row_factory = sqlite3.Row
+#     return g.db
 
 @app.teardown_appcontext
 def close_db(e=None):
@@ -22,10 +23,11 @@ def close_db(e=None):
     if db is not None:
         db.close()
 
-@bp.route('/register/', methods=['POST'])
+@bp.route('/register', methods=['POST'])
 def register():
     db = get_db()
     cur = db.cursor()
+    user_id = 512
     username = request.json['username']
     password = generate_password_hash(request.json['password'])
     email = request.json.get('email', '')
@@ -35,8 +37,8 @@ def register():
     role = 'user'
 
     try:
-        cur.execute('INSERT INTO user (username, password, first_name, last_name, phone_number, email, account_balance, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-                    (username, password, firstname, lastname, phonenum, email, 1000000, role))
+        cur.execute('INSERT INTO user (UserId, UserName, Password, Email, FirstName, LastName, PhoneNumber, AccountBalance, Role) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                    (user_id, username, password, email, firstname, lastname, phonenum, 1000000, role))
         db.commit()
     except sqlite3.IntegrityError:
         return jsonify({'error': f'User {username} is already registered.'}), 400
@@ -60,8 +62,8 @@ def login(user_role):
         return jsonify({'error': 'Incorrect password.'}), 400
 
     session.clear()
-    session['user_id'] = user['id']
-    session['user_role'] = user['role']
+    session['user_id'] = user['UserId']
+    session['user_role'] = user['Role']
 
     return jsonify({'status': 'Success'}), 200
 

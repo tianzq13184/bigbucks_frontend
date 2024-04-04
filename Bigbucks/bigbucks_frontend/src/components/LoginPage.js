@@ -2,8 +2,8 @@ import React from "react";
 import {Form, Button, Input, Space, Checkbox, message} from "antd";
 import { UserOutlined } from "@ant-design/icons"
 import { login, register} from "../utils";
-import LoginForm from './LoginForm'; // 假设你已经创建了这个组件
-import RegisterForm from './RegisterForm'; // 假设你已经创建了这个组件
+import LoginForm from './LoginForm';
+import RegisterForm from './RegisterForm';
 
 class LoginPage extends React.Component {
     formRef = React.createRef();

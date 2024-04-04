@@ -12,7 +12,7 @@ CREATE TABLE user (
     LastName TEXT NOT NULL,
     PhoneNumber TEXT NOT NULL,
     AccountBalance DECIMAL NOT NULL,
-    ROLE TEXT NOT NULL,
+    ROLE TEXT NOT NULL
 );
 
 CREATE TABLE stocks (

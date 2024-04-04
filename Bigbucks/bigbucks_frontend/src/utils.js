@@ -1,8 +1,8 @@
 // const domain = "http://127.0.0.1:5000"
 
 export const login = (credential, asHost) => {
-    const loginUrl = '/login/${asHost? "host" : "user"}';
-    // const loginUrl = '/login/${asHost? "host" : "user"}';
+    const loginUrl = `/auth/login/${asHost ? "host" : "user"}`;
+
     return fetch(loginUrl, {
         method: "POST",
         headers: {
@@ -19,7 +19,7 @@ export const login = (credential, asHost) => {
 };
 
 export const register = (credential) => {
-    const registerUrl = '/register/';
+    const registerUrl = '/auth/register';
     // const registerUrl = '/register/';
     return fetch(registerUrl, {
         method: "POST",
@@ -28,7 +28,7 @@ export const register = (credential) => {
         },
         body: JSON.stringify(credential),
     }).then((response) => {
-        if(response.status !== 200) {
+        if(response.status !== 201) {
             throw Error("Fail to register");
         }
     });
