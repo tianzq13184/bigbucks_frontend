@@ -22,7 +22,7 @@ def close_db(e=None):
     if db is not None:
         db.close()
 
-@bp.route('/register', methods=['POST'])
+@bp.route('/register/', methods=['POST'])
 def register():
     db = get_db()
     cur = db.cursor()
