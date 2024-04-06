@@ -5,21 +5,22 @@ from flask import redirect
 from flask import render_template
 from flask import request, jsonify
 from flask import url_for
+from .historical import get_stock_data
 import requests
 import json
 
 import numpy as np
 import pandas as pd
-from BigBucks.historical import collect_stock_data
-from BigBucks.historical import get_10year_yield
+from .historical import collect_stock_data
+from .historical import get_10year_yield
 
 
 from config import api_key
-from config import token
+# from config import token
 
 
-from BigBucks.auth import login_required
-from BigBucks.db import get_db
+from .auth import login_required
+from .db import get_db
 
 
 bp = Blueprint("member", __name__)
@@ -222,3 +223,11 @@ def trade():
 
     return render_template("member/trade.html", trades = trades)
 
+@bp.route('/trade/price/<symbol>', methods=['GET'])
+def get_stock_price(symbol):
+    stock_data = get_stock_data(symbol)
+    time_series = stock_data["Time Series (Daily)"]
+    
+    adjusted_close_data = {date: details["5. adjusted close"] for date, details in time_series.items()}
+    
+    return jsonify(adjusted_close_data)

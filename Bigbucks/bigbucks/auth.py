@@ -1,3 +1,4 @@
+import functools
 import sqlite3
 from flask import Flask, g, jsonify, request, session, flash, redirect, url_for, Blueprint
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -10,11 +11,16 @@ app.secret_key = 'our_secret_key'
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
-# def get_db():
-#     if 'db' not in g:
-#         g.db = sqlite3.connect(DATABASE)
-#         g.db.row_factory = sqlite3.Row
-#     return g.db
+def login_required(view):
+    """View decorator that redirects anonymous users to the login page."""
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if g.user is None:
+            return redirect(url_for("auth.login"))
+
+        return view(**kwargs)
+
+    return wrapped_view
 
 @app.teardown_appcontext
 def close_db(e=None):

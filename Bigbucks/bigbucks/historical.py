@@ -1,9 +1,10 @@
 import datetime
 import requests
 from config import api_key
-from BigBucks.db import get_db
+from .db import get_db
 
 # function to retrieve daily adjusted historical data for a stock from Alpha Vantage API
+# @bp.route('/search/<symbol>', methods=['GET'])
 def get_stock_data(symbol):
     url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol="+symbol+"&outputsize=full&apikey="+api_key
     response = requests.get(url)
